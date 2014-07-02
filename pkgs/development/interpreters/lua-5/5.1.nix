@@ -36,8 +36,8 @@ stdenv.mkDerivation rec {
     mv "doc/"*.{gif,png,css,html} "$out/share/doc/lua/"
     rmdir $out/{share,lib}/lua/5.1 $out/{share,lib}/lua
     wrapProgram $out/bin/lua \
-      --set LUA_PATH  '"$HOME/.nix-profile/lib/lua/5.1/?.lua;$HOME/.nix-profile/share/lua/5.1/?.lua"' \
-      --set LUA_CPATH '"$HOME/.nix-profile/lib/lua/5.1/?.so;$HOME/.nix-profile/share/lua/5.1/?.so"'
+      --set LUA_PATH  '"$(for profile in $NIX_PROFILES; do X="$X;$profile/lib/lua/5.1/?.lua;$profile/share/lua/5.1/?.lua"; done; echo $X)"' \
+      --set LUA_CPATH '"$(for profile in $NIX_PROFILES; do X="$X;$profile/lib/lua/5.1/?.so;$profile/share/lua/5.1/?.so";   done; echo $X)"'
   '';
 
   meta = {
